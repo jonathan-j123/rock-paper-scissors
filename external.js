@@ -4,11 +4,22 @@ const count = {
 }
 
 function game() {
-    for (count.userScore = 0, count.computerScore; count.userScore < 5 || count.computerScore < 5;) {
-       setTimeout( gameExecution( computerPlay(), prompt(`User: ${count.userScore} | Computer: ${count.computerScore}\n['rock', 'paper', 'scissor'] - Choose one: `).toString()),
-       1000
-       );
+    for (; count.userScore < 5 && count.computerScore < 5;) {
+       gameExecution( computerPlay(), prompt(`User: ${count.userScore} | Computer: ${count.computerScore}\n['rock', 'paper', 'scissor'] - Choose one: `).toString());
+
+       
      }
+     let winner = (count.userScore >= 5)? "Cool Player win! " : "Mighty Computer win! ";
+
+     let playAgain = confirm(`${winner}Would you like to try again?`);
+     if(playAgain){
+        count.userScore = 0; 
+        count.computerScore = 0; 
+        game(); 
+        
+     }else{
+        alert("Thanks for Playing! If you change your mind, just reload the game.");
+    } 
 
 }
 
@@ -39,15 +50,16 @@ function gameExecution(computerSelection, userSelection) {
     (userSelection === 'paper' && computerSelection === "paper")? `${drawMessage}`:
     (userSelection === 'rock' && computerSelection === "rock")? `${drawMessage}`:
     //---------------ERROR--------------------------
-    (userSelection !== "rock" || userSelection !== "paper" || userSelection !== "scissor")? userSelectionWrong(): "Something Happen, Error";
-
+    (userSelection !== "rock" || userSelection !== "paper" || userSelection !== "scissor")? userSelectionWrong(): 
+    (userSelection === "")? userSelectionWrong() : "Something Happen, Error";
+    
     alert(result);
 }
 
 function userSelectionWrong() {
     // Incase of user inputs not in choices, then this will trigger
     alert("Your input is not in the choices. Please follow the program. Repeating Process..");
-    gameExecution();
+    gameExecution(computerPlay(), prompt(`User: ${count.userScore} | Computer: ${count.computerScore}\n['rock', 'paper', 'scissor'] - Choose one: `).toString());
 }
 
 game();
